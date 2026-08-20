@@ -9,6 +9,10 @@
         <string>/usr/bin/python3</string>
         <string>/usr/local/bin/mac-studio-presence-monitor.py</string>
     </array>
+    <key>UserName</key>
+    <string>_presencemonitor</string>
+    <key>GroupName</key>
+    <string>daemon</string>
     <key>StartInterval</key>
     <integer>60</integer>
     <key>RunAtLoad</key>
