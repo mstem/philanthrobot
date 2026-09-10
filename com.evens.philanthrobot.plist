@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>com.evens.macstudio-presence</string>
+    <string>com.evens.philanthrobot</string>
     <key>ProgramArguments</key>
     <array>
         <string>/usr/bin/python3</string>
-        <string>/usr/local/bin/mac-studio-presence-monitor.py</string>
+        <string>/usr/local/bin/philanthrobot-monitor.py</string>
     </array>
     <key>UserName</key>
     <string>_presencemonitor</string>
@@ -18,8 +18,8 @@
     <key>RunAtLoad</key>
     <true/>
     <key>StandardOutPath</key>
-    <string>/usr/local/var/log/mac-studio-presence-monitor.log</string>
+    <string>/usr/local/var/log/philanthrobot-monitor.log</string>
     <key>StandardErrorPath</key>
-    <string>/usr/local/var/log/mac-studio-presence-monitor.log</string>
+    <string>/usr/local/var/log/philanthrobot-monitor.log</string>
 </dict>
 </plist>

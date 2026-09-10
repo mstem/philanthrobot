@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Polls remote-session activity on Evens's Mac Studio and posts Slack updates
-when someone starts, idles, resumes, or ends a remote session.
+"""Polls remote-session activity on philanthrobot (the Evens Mac Studio) and posts
+Slack updates when someone starts, idles, resumes, or ends a remote session.
 
 Two detection sources are combined, because neither alone sees everything:
   - netstat: established inbound TCP connections to the SSH port. Catches
@@ -20,9 +20,9 @@ import sys
 import urllib.request
 from datetime import datetime, timezone
 
-CONFIG_PATH = os.environ.get("MONITOR_CONFIG", "/usr/local/etc/mac-studio-monitor/config.json")
-STATE_PATH = os.environ.get("MONITOR_STATE", "/usr/local/etc/mac-studio-monitor/state.json")
-AUDIT_LOG_PATH = os.environ.get("MONITOR_AUDIT_LOG", "/usr/local/var/log/mac-studio-presence.jsonl")
+CONFIG_PATH = os.environ.get("MONITOR_CONFIG", "/usr/local/etc/philanthrobot/config.json")
+STATE_PATH = os.environ.get("MONITOR_STATE", "/usr/local/etc/philanthrobot/state.json")
+AUDIT_LOG_PATH = os.environ.get("MONITOR_AUDIT_LOG", "/usr/local/var/log/philanthrobot.jsonl")
 
 TAILNET_V4 = ipaddress.ip_network("100.64.0.0/10")
 TAILNET_V6 = ipaddress.ip_network("fd7a:115c:a1e0::/48")
