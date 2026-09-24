@@ -187,15 +187,18 @@ def log_event(event, person):
 
 
 def notify(config, text):
-    webhook = config.get("slack_webhook_url")
-    if not webhook:
-        return
+    # slack_webhook_urls posts to several workspaces; slack_webhook_url is the
+    # older single-channel key, still honoured so existing configs keep working.
+    webhooks = list(config.get("slack_webhook_urls") or [])
+    if config.get("slack_webhook_url") and config["slack_webhook_url"] not in webhooks:
+        webhooks.insert(0, config["slack_webhook_url"])
     body = json.dumps({"text": text}).encode("utf-8")
-    req = urllib.request.Request(webhook, data=body, headers={"Content-Type": "application/json"})
-    try:
-        urllib.request.urlopen(req, timeout=10)
-    except Exception as e:
-        print(f"Slack post failed: {e}", file=sys.stderr)
+    for webhook in webhooks:
+        req = urllib.request.Request(webhook, data=body, headers={"Content-Type": "application/json"})
+        try:
+            urllib.request.urlopen(req, timeout=10)
+        except Exception as e:
+            print(f"Slack post failed: {e}", file=sys.stderr)
 
 
 def migrate_v1_state(state):
