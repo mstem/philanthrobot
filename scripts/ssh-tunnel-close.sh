@@ -21,6 +21,13 @@ c=json.load(sys.stdin)["result"]["config"]
 c["ingress"]=[r for r in c["ingress"] if r.get("hostname")!="'$HOST'"]
 print(json.dumps({"config":c}))')
 cf -X PUT "$API/accounts/$ACC/cfd_tunnel/$TUNNEL/configurations" -d "$CFG" | python3 -c 'import sys,json;print(json.load(sys.stdin)["success"])'
+# The Access rule is the only lock on the route, so it goes last and only once
+# the route is confirmed gone.
+route=$(cf "$API/accounts/$ACC/cfd_tunnel/$TUNNEL/configurations" | python3 -c 'import sys,json;print("present" if any(r.get("hostname")=="'$HOST'" for r in json.load(sys.stdin)["result"]["config"]["ingress"]) else "absent")' 2>/dev/null || true)
+if [ "$route" != absent ]; then
+	echo "Tunnel route not confirmed gone; leaving the Access rule in place. Re-run this script."
+	exit 1
+fi
 
 echo "DNS record"
 for id in $(cfd "$API/zones/$ZONE/dns_records?name=$HOST" | python3 -c 'import sys,json;[print(r["id"]) for r in json.load(sys.stdin)["result"]]'); do
